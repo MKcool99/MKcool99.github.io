@@ -66,7 +66,7 @@ let swanCost = 350000000000
 let swanLevel = 0
 let swanValue = 15000000000000
 
-let duckimage = 'duck_1.png';
+let duckimage = 'mainDuck.png';
 let punchedduckimage = 'duck 2.png';
 let SombreroCost = 85000
 let WandCost = 4000
