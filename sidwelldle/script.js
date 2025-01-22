@@ -1,9 +1,9 @@
 const words = [ //change these out every weekend
-    "ritacco",   // Sunday
-    "upton",  // Monday
+    "tatte",   // Sunday
+    "library",  // Monday
     "foxden",  // Tuesday
     "upton",    // Wednesday
-    "english",   // Thursday
+    "spices",   // Thursday
     "wegmans",     // Friday
     "math"    // Saturday
   ];
