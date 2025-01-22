@@ -78,8 +78,8 @@ footer {
   }
   
 .full-height-image {
-    width: 330px;
-    height: 550px;
+    width: 300px;
+    height: 500px;
     margin: 0 10px; /* Space between the images */
     object-fit: cover; /* Ensures images scale properly */
     cursor: pointer;
