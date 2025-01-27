@@ -1,11 +1,11 @@
 const words = [ //change these out every weekend
-    "tatte",   // Sunday
+    "tennis",   // Sunday
     "library",  // Monday
-    "foxden",  // Tuesday
-    "upton",    // Wednesday
-    "spices",   // Thursday
-    "wegmans",     // Friday
-    "math"    // Saturday
+    "horizon",  // Tuesday
+    "oats",    // Wednesday
+    "speece",   // Thursday
+    "meeting",     // Friday
+    "senior"    // Saturday
   ];
 
 const today = new Date().getDay();
