@@ -1,10 +1,10 @@
 const words = [ //change these out every weekend
-    "fence",   // Sunday
-    "towns",  // Monday
-    "macbook",  // Tuesday
-    "biology",    // Wednesday
-    "trees",   // Thursday
-    "cherry",     // Friday
+    "math",   // Sunday
+    "admissions",  // Monday
+    "outlook",  // Tuesday
+    "canvas",    // Wednesday
+    "softball",   // Thursday
+    "quarter",     // Friday
     "upton"    // Saturday
   ];
 
