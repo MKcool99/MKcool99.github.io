@@ -67,7 +67,7 @@ function generatePlatform() {
     const minGap = 50;  
     const maxGap = 100; 
     const minHeight = 100;
-    const maxHeight = 400;
+    const maxHeight = 350;
 
     const gap = Math.random() * (maxGap - minGap) + minGap;
     const height = Math.random() * (maxHeight - minHeight) + minHeight;
