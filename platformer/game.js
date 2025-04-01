@@ -64,8 +64,8 @@ document.addEventListener('keyup', (e) => {
 
 // Generate new platform
 function generatePlatform() {
-    const minGap = 50;  // Reduced from 100
-    const maxGap = 150; // Reduced from 200
+    const minGap = 50;  
+    const maxGap = 100; 
     const minHeight = 100;
     const maxHeight = 400;
 
