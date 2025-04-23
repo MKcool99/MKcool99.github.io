@@ -21,7 +21,6 @@ body {
   grid-template-columns: repeat(var(--length), 50px);
   grid-gap: 5px;
   justify-content: center;
-  margin-top: 40px;
   margin-bottom: 40px;
   font-family: serif;
 }
@@ -32,6 +31,8 @@ body {
     font-weight: bold;
     color: #FFFFFF;
     margin-bottom: 0;
+    margin-top: 1.5%;
+    margin-bottom: 1.5%;
 }
 
 .start2 {
@@ -39,6 +40,7 @@ body {
     font-size: 30px;
     font-weight: bold;
     color: #FFFFFF;
+    margin: 0, 2.5%;
 }
 
 .tile {
