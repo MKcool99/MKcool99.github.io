@@ -5,7 +5,7 @@ const words = [ //change these out every weekend
     "stugov",    // Wednesday
     "credit",   // Thursday
     "graduate",     // Friday
-    "jacquez"    // Saturday
+    "speece"    // Saturday
   ];
 
 const today = new Date().getDay();
