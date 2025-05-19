@@ -2,10 +2,10 @@ const words = [ //change these out every weekend
     "board",   // Sunday
     "quiz",  // Monday
     "senior",  // Tuesday
-    "stugov",    // Wednesday
-    "credit",   // Thursday
-    "graduate",     // Friday
-    "speece"    // Saturday
+    "science",    // Wednesday
+    "point",   // Thursday
+    "midterm",     // Friday
+    "garman"    // Saturday
   ];
 
 const today = new Date().getDay();
