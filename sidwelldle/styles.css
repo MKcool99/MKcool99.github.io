@@ -16,6 +16,24 @@ body {
   text-align: center;
 }
 
+.home-button {
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    font-size: 2em;
+    color: var(--heading-color, #fff);
+    text-decoration: none;
+    background: rgba(0,0,0,0.15);
+    padding: 0.15em 0.4em;
+    border-radius: 7px;
+    z-index: 100;
+    transition: background 0.2s;
+    border: #b6b6b6 2px solid;
+}
+.home-button:hover {
+    background: rgba(0,0,0,0.35);
+}
+
 #board {
   display: grid;
   grid-template-columns: repeat(var(--length), 50px);

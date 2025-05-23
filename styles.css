@@ -52,7 +52,7 @@
 .home-button {
     position: absolute;
     top: 18px;
-    left: 18px;
+    right: 18px;
     font-size: 1.5em;
     color: var(--heading-color, #fff);
     text-decoration: none;
@@ -61,6 +61,7 @@
     border-radius: 7px;
     z-index: 100;
     transition: background 0.2s;
+    border: #b6b6b6 2px solid;
 }
 .home-button:hover {
     background: rgba(0,0,0,0.35);

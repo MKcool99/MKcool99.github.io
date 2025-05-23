@@ -1,14 +1,39 @@
-const words = [ //change these out every weekend
-    "board",   // Sunday
-    "quiz",  // Monday
-    "senior",  // Tuesday
-    "science",    // Wednesday
-    "point",   // Thursday
-    "midterm",     // Friday
-    "garman"    // Saturday
+const words = [ //words for the month (32 words)
+  "X", // 0 in the array
+  "dialogue", // day 1
+  "mentor", 
+  "justice", 
+  "truthful", 
+  "seminar",
+  "quakers", 
+  "reflect", 
+  "service", 
+  "meeting", 
+  "worship", //day 10 
+  "writing",
+  "speece", 
+  "finals", 
+  "english", 
+  "garman", 
+  "reading", 
+  "history",
+  "arts", 
+  "ethics", 
+  "learning", //day 20
+  "growth", 
+  "respect", 
+  "graduation",
+  "research", 
+  "teacher", 
+  "equality", 
+  "foxden", 
+  "purpose", 
+  "discuss",
+  "science", //day 30
+  "community",
   ];
 
-const today = new Date().getDay();
+const today = new Date().getDate();
 const WORD = words[today];
 
 let wordLength = WORD.length;
