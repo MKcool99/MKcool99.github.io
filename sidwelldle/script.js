@@ -1,4 +1,4 @@
-const words = [ //words for the month (32 words)
+const words = [ //words for the month (31 words)
   "X", // 0 in the array
   "dialogue", // day 1
   "mentor", 
