@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Taco Dodge Game</title>
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      background: #ffe4b5;
+      font-family: sans-serif;
+    }
+    #gameArea {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      background: linear-gradient(to top, #ffe4b5 80%, #fff8dc 100%);
+      overflow: hidden;
+    }
+    #player {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 48px;
+      user-select: none;
+    }
+    .taco {
+      position: absolute;
+      font-size: 40px;
+      user-select: none;
+      pointer-events: none;
+      animation: fall linear;
+    }
+    #score {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      font-size: 24px;
+      color: #333;
+      background: rgba(255,255,255,0.7);
+      padding: 6px 16px;
+      border-radius: 8px;
+    }
+    #gameOver {
+      display: none;
+      position: absolute;
+      top: 40%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 48px;
+      color: #b22222;
+      background: #fff8dc;
+      padding: 30px 60px;
+      border-radius: 20px;
+      border: 3px solid #b22222;
+      text-align: center;
+      z-index: 10;
+    }
+  </style>
+</head>
+<body>
+  <div id="gameArea">
+    <div id="score">Score: 0</div>
+    <div id="player">🧑</div>
+    <div id="gameOver">
+      Game Over!<br>
+      <span id="finalScore"></span><br>
+      <button onclick="restartGame()">Restart</button>
+    </div>
+  </div>
+  <script>
+    const gameArea = document.getElementById('gameArea');
+    const player = document.getElementById('player');
+    const scoreDisplay = document.getElementById('score');
+    const gameOverDiv = document.getElementById('gameOver');
+    const finalScore = document.getElementById('finalScore');
+
+    let playerX = window.innerWidth / 2;
+    const playerWidth = 48;
+    let score = 0;
+    let gameRunning = true;
+    let tacoInterval;
+    let animationFrame;
+
+    function setPlayerPosition(x) {
+      playerX = Math.max(0, Math.min(window.innerWidth - playerWidth, x));
+      player.style.left = playerX + 'px';
+    }
+
+    function spawnTaco() {
+      if (!gameRunning) return;
+      const taco = document.createElement('div');
+      taco.className = 'taco';
+      taco.textContent = '🌮';
+      const size = 40 + Math.random() * 10;
+      taco.style.fontSize = size + 'px';
+      const tacoX = Math.random() * (window.innerWidth - size);
+      taco.style.left = tacoX + 'px';
+      taco.style.top = '-50px';
+      gameArea.appendChild(taco);
+
+      let tacoY = -50;
+      const speed = 2 + Math.random() * 3;
+
+      function fall() {
+        if (!gameRunning) {
+          taco.remove();
+          return;
+        }
+        tacoY += speed;
+        taco.style.top = tacoY + 'px';
+
+        // Collision detection
+        const playerRect = player.getBoundingClientRect();
+        const tacoRect = taco.getBoundingClientRect();
+        if (
+          tacoRect.bottom > playerRect.top &&
+          tacoRect.left < playerRect.right &&
+          tacoRect.right > playerRect.left &&
+          tacoRect.top < playerRect.bottom
+        ) {
+          endGame();
+          taco.remove();
+          return;
+        }
+
+        if (tacoY < window.innerHeight) {
+          requestAnimationFrame(fall);
+        } else {
+          taco.remove();
+          if (gameRunning) {
+            score++;
+            scoreDisplay.textContent = 'Score: ' + score;
+          }
+        }
+      }
+      requestAnimationFrame(fall);
+    }
+
+    function gameLoop() {
+      if (!gameRunning) return;
+      animationFrame = requestAnimationFrame(gameLoop);
+    }
+
+    function endGame() {
+      gameRunning = false;
+      clearInterval(tacoInterval);
+      cancelAnimationFrame(animationFrame);
+      gameOverDiv.style.display = 'block';
+      finalScore.textContent = 'Final Score: ' + score;
+    }
+
+    function restartGame() {
+      // Remove all tacos
+      document.querySelectorAll('.taco').forEach(t => t.remove());
+      score = 0;
+      scoreDisplay.textContent = 'Score: 0';
+      gameOverDiv.style.display = 'none';
+      gameRunning = true;
+      setPlayerPosition(window.innerWidth / 2);
+      tacoInterval = setInterval(spawnTaco, 700);
+      gameLoop();
+    }
+
+    // Controls
+    document.addEventListener('keydown', e => {
+      if (!gameRunning) return;
+      if (e.key === 'ArrowLeft') setPlayerPosition(playerX - 40);
+      if (e.key === 'ArrowRight') setPlayerPosition(playerX + 40);
+    });
+
+    // Mouse/touch controls
+    gameArea.addEventListener('mousemove', e => {
+      if (!gameRunning) return;
+      setPlayerPosition(e.clientX - playerWidth / 2);
+    });
+    gameArea.addEventListener('touchmove', e => {
+      if (!gameRunning) return;
+      setPlayerPosition(e.touches[0].clientX - playerWidth / 2);
+    });
+
+    // Responsive
+    window.addEventListener('resize', () => setPlayerPosition(playerX));
+
+    // Start game
+    setPlayerPosition(window.innerWidth / 2);
+    tacoInterval = setInterval(spawnTaco, 700);
+    gameLoop();
+  </script>
+</body>
+</html>
