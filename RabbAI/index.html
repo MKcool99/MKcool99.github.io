@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>RabbAI Chatbot</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      margin: 0;
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      font-family: 'Segoe UI', Arial, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    header {
+      background: #fff;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+      padding: 32px 0 16px 0;
+      text-align: center;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 2.5rem;
+      color: #2d3a4b;
+      letter-spacing: 2px;
+    }
+    header p {
+      color: #5a6a7a;
+      font-size: 1.1rem;
+      margin-top: 8px;
+    }
+    main {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 40px 10px 10px 10px;
+    }
+    .chatbot-container {
+      background: #fff;
+      border-radius: 18px;
+      box-shadow: 0 4px 32px rgba(44,62,80,0.10);
+      padding: 32px 18px 24px 18px;
+      max-width: 420px;
+      width: 100%;
+      min-height: 500px;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      margin-bottom: 40px;
+    }
+    @media (max-width: 600px) {
+      header h1 { font-size: 1.5rem; }
+      .chatbot-container { padding: 12px 2px; min-height: 350px; }
+      main { padding: 10px 2px; }
+    }
+    /* Optional: Animate chatbot container on load */
+    .chatbot-container {
+      animation: popIn 0.7s cubic-bezier(.68,-0.55,.27,1.55);
+    }
+    @keyframes popIn {
+      0% { transform: scale(0.95) translateY(40px); opacity: 0; }
+      100% { transform: scale(1) translateY(0); opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>✡️ RabbAI Chatbot</h1>
+    <p>Consult an extremely knowledgable rabbi</p>
+  </header>
+  <main>
+    <div class="chatbot-container">
+      <div id="deployment-ca6eae54-2969-4c52-abd0-bead24c9f6c4"></div>
+    </div>
+  </main>
+  <script src="https://studio.pickaxe.co/api/embed/bundle.js" defer></script>
+</body>
+</html>
