@@ -1,3 +1,7 @@
+// Set your backend URL here. Use the Render URL when deployed.
+const API_BASE = 'https://backend1-2mjj.onrender.com'; // <-- update to your Render backend URL
+// For local development, you can use: const API_BASE = '';
+
 // Countries to guess (name + central coordinates). Threshold in km for "correct".
 const targets = [
   {id:'fr',name:'France',lat:46.2276,lng:2.2137,threshold:300},
@@ -51,7 +55,7 @@ async function renderResultsScreen(){
   // fetch all submissions from server
   let subs = [];
   try {
-    const resp = await fetch('/api/submissions');
+    const resp = await fetch(`${API_BASE}/api/submissions`);
     subs = await resp.json();
   } catch(e) { subs = []; }
   // our submission
@@ -120,7 +124,7 @@ map.on('click', async function(e){
     let userId = localStorage.getItem(userIdKey);
     if(!userId){ userId = Math.random().toString(36).slice(2)+Date.now(); localStorage.setItem(userIdKey,userId); }
     try {
-      await fetch('/api/submit', {
+      await fetch(`${API_BASE}/api/submit`, {
         method: 'POST',
         headers: {'Content-Type':'application/json'},
         body: JSON.stringify({userId, guesses: state.guesses})
