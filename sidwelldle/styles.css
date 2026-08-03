@@ -1,89 +1,419 @@
 :root {
-    --length: 6;
+  --length: 6;
+
+  /* One near-neutral ramp, evenly stepped from white to ink. There is a trace
+     of warmth (red channel a few points above blue) so it doesn't read cold
+     next to the maroon, but not enough to look tan. Every surface and border
+     picks a stop from this ladder rather than inventing a near-duplicate. */
+  --n-0: #ffffff;
+  --n-1: #f2f1f0;
+  --n-2: #dbd9d7;
+  --n-3: #c6c4c1;
+  --n-4: #9c9a97;
+  --n-5: #6b6a67;
+  --n-6: #33322f;
+
+  --paper: var(--n-0);
+  --rule: var(--n-1);
+  --tile-empty: var(--n-2);
+  --tile-active: var(--n-3);
+  --key: var(--n-2);
+  --key-hover: var(--n-3);
+  --muted: #85847f;
+  --ink: var(--n-6);
+
+  /* Result colours. Tiles and keys share these exactly, so a letter reads the
+     same on the board as on the keyboard. Pitched for a softer look rather
+     than maximum contrast — white text lands around 3.5:1 on the gold and
+     grey, which is fine for bold type at these sizes. */
+  --maroon: #7d2020;
+  --present: #a9871c;
+  --absent: #8b8a85;
+
+  --maroon-dark: #661818;
+  --present-dark: #8e7114;
+  --absent-dark: #767570;
+
+  --card: min(720px, 100vw);
+
+  /* Tiles take whichever is tighter: the card's width split across the word,
+     or the height left over once header, message, keyboard and the gaps
+     between them are accounted for. The 29rem reserve is deliberately larger
+     than those parts strictly need: the surplus is breathing room, which keeps
+     the board modest on a small screen while the 88px cap still lets it grow
+     on a large monitor. */
+  --tile: clamp(
+    26px,
+    min(
+      calc((var(--card) - 3rem) / var(--length) - 6px),
+      calc((100vh - 29rem) / 6)
+    ),
+    88px
+  );
+}
+
+* {
+  box-sizing: border-box;
 }
 
 body {
-  font-family: Arial, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
   display: flex;
   justify-content: center;
-  align-items: top;
-  height: 100vh;
+  min-height: 100vh;
   margin: 0;
-  background-color: #701919;
+  background-color: var(--paper);
+  color: var(--ink);
 }
 
 #game-container {
-  text-align: center;
+  background: var(--paper);
+  width: 100%;
+  max-width: var(--card);
+  padding: 0 1.25rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  position: relative;
 }
 
-.home-button {
-    position: absolute;
-    top: 18px;
-    right: 18px;
-    font-size: 2em;
-    color: var(--heading-color, #fff);
-    text-decoration: none;
-    background: rgba(0,0,0,0.15);
-    padding: 0.15em 0.4em;
-    border-radius: 7px;
-    z-index: 100;
-    transition: background 0.2s;
-    border: #b6b6b6 2px solid;
+/* equal-weight groups keep the title optically centred */
+.header-group {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  flex: 1;
 }
-.home-button:hover {
-    background: rgba(0,0,0,0.35);
+
+.header-group.end {
+  justify-content: flex-end;
+}
+
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  border-bottom: 1px solid var(--rule);
+  padding: 0.85rem 0;
+  flex: none;
+}
+
+.header-title {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  min-width: 0;
+}
+
+.start2 {
+  font-size: 0.72rem;
+  color: var(--muted);
+  margin: 0;
+  white-space: nowrap;
+}
+
+/* the subtitle is the first thing to go when the header runs out of room */
+@media (max-width: 430px) {
+  .start2 {
+    display: none;
+  }
+}
+
+.start {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(1.35rem, 4.5vw, 1.9rem);
+  font-weight: 500;
+  color: var(--maroon);
+  letter-spacing: 0.03em;
+  margin: 0;
+  white-space: nowrap;
+}
+
+.icon-btn {
+  background: none;
+  border: none;
+  padding: 6px;
+  line-height: 0;
+  color: var(--muted);
+  cursor: pointer;
+  border-radius: 50%;
+  flex: none;
+  transition: background 0.15s, color 0.15s;
+}
+
+.icon-btn:hover {
+  background: var(--n-1);
+  color: var(--ink);
+}
+
+.icon-btn svg {
+  width: 21px;
+  height: 21px;
+}
+
+/* Board, message and keyboard travel together as one centred block, so on a
+   tall monitor they don't drift to opposite ends of the screen. The gap grows
+   with the viewport but stays bounded. */
+main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(0.75rem, 2.5vh, 2rem);
+  padding: 0.75rem 0;
+  min-height: 0;
+}
+
+#board-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
 }
 
 #board {
   display: grid;
-  grid-template-columns: repeat(var(--length), 50px);
-  grid-gap: 5px;
+  grid-template-columns: repeat(var(--length), var(--tile));
+  gap: 5px;
   justify-content: center;
-  margin-bottom: 40px;
-  font-family: serif;
-}
-
-.start {
-    font-family: serif;
-    font-size: 100px;
-    font-weight: bold;
-    color: #FFFFFF;
-    margin-bottom: 0;
-    margin-top: 1.5%;
-    margin-bottom: 1.5%;
-}
-
-.start2 {
-    font-family: serif;
-    font-size: 30px;
-    font-weight: bold;
-    color: #FFFFFF;
-    margin: 0, 2.5%;
 }
 
 .tile {
-  width: 50px;
-  height: 50px;
-  border: 2px solid #ccc;
-  text-align: center;
-  font-size: 24px;
-  font-weight: bold;
-  line-height: 50px;
+  width: var(--tile);
+  height: var(--tile);
+  border: 2px solid var(--tile-empty);
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(var(--tile) * 0.45);
+  font-weight: 600;
   text-transform: uppercase;
-  background-color: white;
+  transition: border-color 0.1s;
 }
 
-.correct {
-  background-color: #38b72c;
-  color: white;
+.tile.filled {
+  border-color: var(--tile-active);
 }
 
-.present {
-  background-color: #cfaf22;
-  color: white;
+.tile.correct,
+.tile.present,
+.tile.absent {
+  color: #fff;
+  border-color: transparent;
 }
 
-.absent {
-  background-color: #676b6e;
-  color: white;
+.correct { background-color: var(--maroon); }
+.present { background-color: var(--present); }
+.absent  { background-color: var(--absent); }
+
+.tile.flip {
+  animation: flip 0.5s ease forwards;
+}
+
+@keyframes flip {
+  0%   { transform: rotateX(0); }
+  50%  { transform: rotateX(90deg); }
+  100% { transform: rotateX(0); }
+}
+
+#message {
+  min-height: 1.4rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  margin: 0;
+  text-align: center;
+  color: var(--maroon);
+}
+
+/* the day-31 horizon note drifts up as it lands */
+#message.note {
+  animation: note-rise 700ms ease-out both;
+}
+
+@keyframes note-rise {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #message.note { animation: none; }
+}
+
+#keyboard {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+  /* track the board's width so the two blocks stay visually paired, with a
+     floor that keeps ten keys tappable under short words */
+  max-width: clamp(
+    340px,
+    calc(var(--length) * (var(--tile) + 5px)),
+    625px
+  );
+  margin: 0 auto;
+  flex: none;
+}
+
+.kb-row {
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+}
+
+.key {
+  flex: 1;
+  min-width: 0;
+  max-width: 58px;
+  height: clamp(38px, 6.5vh, 64px);
+  border: none;
+  border-radius: 4px;
+  background: var(--key);
+  color: var(--ink);
+  font-family: inherit;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.key:hover {
+  background: var(--key-hover);
+}
+
+.key.wide {
+  max-width: 84px;
+  font-size: 0.65rem;
+}
+
+/* Guessed keys fill exactly as the tiles do — same three result colours. */
+.key.correct,
+.key.present,
+.key.absent {
+  color: #fff;
+}
+
+.key.correct { background: var(--maroon); }
+.key.present { background: var(--present); }
+.key.absent  { background: var(--absent); }
+
+.key.correct:hover { background: var(--maroon-dark); }
+.key.present:hover { background: var(--present-dark); }
+.key.absent:hover  { background: var(--absent-dark); }
+
+/* modals */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(20, 17, 15, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  z-index: 200;
+}
+
+.overlay[hidden] {
+  display: none;
+}
+
+.modal {
+  background: var(--paper);
+  border-radius: 10px;
+  padding: 1.5rem;
+  width: 100%;
+  max-width: 380px;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+}
+
+.modal h2 {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: var(--maroon);
+  margin: 0 0 0.85rem;
+}
+
+.modal p,
+.modal li {
+  font-size: 0.85rem;
+  line-height: 1.55;
+  margin: 0 0 0.6rem;
+}
+
+.modal ul {
+  padding-left: 1.1rem;
+  margin: 0 0 0.6rem;
+}
+
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+.example {
+  display: flex;
+  gap: 4px;
+  margin: 0.5rem 0 0.75rem;
+}
+
+.example span {
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--tile-empty);
+  border-radius: 3px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.stat-row {
+  display: flex;
+  justify-content: space-around;
+  text-align: center;
+  margin-bottom: 1.25rem;
+}
+
+.stat-num {
+  font-size: 1.6rem;
+  font-weight: 600;
+  line-height: 1.1;
+}
+
+.stat-label {
+  font-size: 0.68rem;
+  color: var(--muted);
+}
+
+.dist-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.75rem;
+  margin-bottom: 4px;
+}
+
+.dist-bar {
+  background: var(--absent);
+  color: #fff;
+  text-align: right;
+  padding: 2px 6px;
+  border-radius: 2px;
+  min-width: 22px;
+  font-weight: 600;
+}
+
+.dist-bar.today {
+  background: var(--maroon);
 }
