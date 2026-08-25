@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>What Day Was That?</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Oswald:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- Purely decorative geometry. Never interactive, never on top of content. -->
+<div class="bg" aria-hidden="true">
+  <div class="bg-wedge"></div>
+  <div class="bg-bar"></div>
+  <div class="bg-circle"></div>
+  <div class="bg-ring"></div>
+</div>
+
+<div class="railtext" aria-hidden="true">DAY &middot; WEEK &middot; CALENDAR</div>
+
+<button id="helpBtn" class="help-btn" aria-label="How the method works" title="How the method works">?</button>
+
+<main class="wrap">
+
+  <header class="titleblock">
+    <div class="kicker">The Method</div>
+    <h1><span class="t1">What Day</span> <span class="t2">Was That<span class="qm">?</span></span></h1>
+    <div class="rule"></div>
+    <p class="tagline">Roll a date, or enter your own. Work it out in your head, then check yourself.</p>
+  </header>
+
+  <div class="controls">
+    <button id="rollBtn" class="btn btn-primary">Random Date</button>
+
+    <form id="pickForm" class="picker" novalidate>
+      <label class="picker-label" for="pickDate">Or pick one</label>
+      <div class="picker-row">
+        <input type="date" id="pickDate" name="pickDate"
+               min="1900-01-01" max="2099-12-31"
+               placeholder="yyyy-mm-dd" required>
+        <button type="submit" class="btn btn-go">Go</button>
+      </div>
+      <p id="pickError" class="picker-error hidden" role="alert"></p>
+    </form>
+  </div>
+
+  <section id="dateCard" class="card hidden" aria-live="polite">
+    <div class="card-tab">Date</div>
+    <div id="dateText" class="date-text"></div>
+
+    <div class="actions">
+      <button id="answerBtn" class="btn">Show the Day</button>
+      <button id="workBtn" class="btn">Show the Work</button>
+    </div>
+
+    <div id="answer" class="answer hidden"></div>
+    <div id="work" class="work hidden"></div>
+  </section>
+
+</main>
+
+<div id="helpModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="helpTitle">
+  <div class="modal-box">
+    <div class="modal-head">
+      <h2 id="helpTitle">The Method</h2>
+      <button id="helpClose" class="modal-close" aria-label="Close">&times;</button>
+    </div>
+
+    <div class="modal-body">
+      <p class="lede">Add four numbers, apply one century adjustment, divide by seven, and read off the remainder.</p>
+
+      <ol class="steps">
+        <li><strong>Year part.</strong> Take the last two digits of the year.</li>
+        <li><strong>Quarter part.</strong> Add a quarter of those two digits, dropping any remainder.</li>
+        <li><strong>Day part.</strong> Add the day of the month.</li>
+        <li><strong>Month code.</strong> Add the key number for the month.</li>
+        <li><strong>Century adjustment.</strong> 1900s: add 0. 2000s: subtract 1.</li>
+        <li><strong>Remainder.</strong> Divide the total by 7. The remainder is the weekday.</li>
+      </ol>
+
+      <h3>Month codes</h3>
+      <table class="tbl">
+        <tr><th>Jan</th><td>1 <span class="muted">/ 0 leap</span></td><th>Jul</th><td>0</td></tr>
+        <tr><th>Feb</th><td>4 <span class="muted">/ 3 leap</span></td><th>Aug</th><td>3</td></tr>
+        <tr><th>Mar</th><td>4</td><th>Sep</th><td>6</td></tr>
+        <tr><th>Apr</th><td>0</td><th>Oct</th><td>1</td></tr>
+        <tr><th>May</th><td>2</td><th>Nov</th><td>4</td></tr>
+        <tr><th>Jun</th><td>5</td><th>Dec</th><td>6</td></tr>
+      </table>
+
+      <h3>Remainders</h3>
+      <table class="tbl">
+        <tr><th>0</th><td>Saturday</td><th>4</th><td>Wednesday</td></tr>
+        <tr><th>1</th><td>Sunday</td><th>5</th><td>Thursday</td></tr>
+        <tr><th>2</th><td>Monday</td><th>6</th><td>Friday</td></tr>
+        <tr><th>3</th><td>Tuesday</td><th></th><td></td></tr>
+      </table>
+
+      <h3>Two gotchas</h3>
+      <ul class="steps">
+        <li>&ldquo;Leap year&rdquo; means a <em>real</em> leap year. 1900 was not one &mdash; divisible by 100 but not 400 &mdash; so January and February 1900 use 1 and 4. 2000 was one.</li>
+        <li>The century adjustment here covers only the 1900s and 2000s, which is exactly the range this page rolls from.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

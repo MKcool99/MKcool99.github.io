@@ -1,0 +1,496 @@
+/* ---------------------------------------------------------------
+   Constructivist palette: paper, black ink, one red.
+   Everything is hard-edged. No rounded corners except the circles.
+   --------------------------------------------------------------- */
+:root {
+  --paper:  #EBE5D9;
+  --paper2: #F5F1E8;
+  --ink:    #14100E;
+  --red:    #D42B1E;
+  --grey:   #6E675E;
+
+  --display: "Archivo Black", Haettenschweiler, "Arial Narrow Bold", Impact, sans-serif;
+  --ui: "Oswald", "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+html, body { overflow-x: hidden; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--paper);
+  color: var(--ink);
+  font: 400 17px/1.5 var(--ui);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* --- decorative geometry ---------------------------------------
+   Fixed, clipped and pointer-transparent, so it can never sit on
+   top of the interface or create a scrollbar.                    */
+.bg {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.bg-wedge {
+  position: absolute;
+  top: -30vh;
+  left: -21vw;
+  width: 33vw;
+  height: 82vh;
+  background: var(--ink);
+  transform: rotate(-19deg);
+}
+
+.bg-bar {
+  position: absolute;
+  bottom: -8vh;
+  right: -20vw;
+  width: 78vw;
+  height: 13vh;
+  background: var(--red);
+  transform: rotate(-19deg);
+}
+
+.bg-circle {
+  position: absolute;
+  top: 40vh;
+  right: -13vw;
+  width: 32vw;
+  height: 32vw;
+  min-width: 240px;
+  min-height: 240px;
+  border-radius: 50%;
+  background: var(--red);
+}
+
+.bg-ring {
+  position: absolute;
+  bottom: 14vh;
+  left: 4vw;
+  width: 16vw;
+  height: 16vw;
+  min-width: 120px;
+  min-height: 120px;
+  border: 10px solid var(--ink);
+  border-radius: 50%;
+}
+
+/* vertical rail of text down the left edge */
+.railtext {
+  position: fixed;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%) rotate(180deg);
+  writing-mode: vertical-rl;
+  font: 600 12px/1 var(--ui);
+  letter-spacing: .42em;
+  text-transform: uppercase;
+  color: var(--ink);
+  opacity: .55;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* --- layout ----------------------------------------------------- */
+.wrap {
+  position: relative;
+  z-index: 2;
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 68px 24px 90px 56px;
+}
+
+/* --- masthead ---------------------------------------------------- */
+.titleblock { margin-bottom: 30px; }
+
+.kicker {
+  font: 600 11px/1 var(--ui);
+  letter-spacing: .34em;
+  text-transform: uppercase;
+  color: var(--red);
+  margin-bottom: 12px;
+}
+
+h1 {
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: clamp(1.85rem, 6vw, 2.7rem);
+  line-height: 1.02;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  margin: 0;
+}
+h1 span { display: inline; }
+.t1 { color: var(--ink); }
+.t2 { color: var(--red); }
+.qm { color: var(--ink); }
+
+.rule {
+  height: 5px;
+  max-width: 260px;
+  margin: 16px 0 14px;
+  background: var(--ink);
+  /* the red tick that breaks the bar */
+  background-image: linear-gradient(90deg, var(--red) 0 44px, transparent 44px);
+}
+
+.tagline {
+  margin: 0;
+  max-width: 46ch;
+  font-size: .98rem;
+  color: var(--grey);
+}
+
+/* --- buttons ------------------------------------------------------ */
+.btn {
+  font: 600 .95rem/1 var(--ui);
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--ink);
+  background: var(--paper2);
+  border: 3px solid var(--ink);
+  border-radius: 0;
+  padding: 15px 26px;
+  cursor: pointer;
+  box-shadow: 6px 6px 0 var(--ink);
+  transition: background .12s, color .12s, transform .08s, box-shadow .12s;
+}
+.btn:hover { background: var(--ink); color: var(--paper2); }
+.btn:active { transform: translate(4px, 4px); box-shadow: 2px 2px 0 var(--ink); }
+.btn:focus-visible { outline: 3px solid var(--red); outline-offset: 4px; }
+
+.btn-primary {
+  background: var(--red);
+  color: var(--paper2);
+  font-size: 1.02rem;
+  padding: 17px 32px;
+  letter-spacing: .18em;
+}
+.btn-primary:hover { background: var(--ink); color: var(--paper2); }
+
+/* --- help button --------------------------------------------------- */
+.help-btn {
+  position: fixed;
+  top: 22px;
+  right: 22px;
+  z-index: 5;
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  border: 4px solid var(--ink);
+  background: var(--paper2);
+  color: var(--ink);
+  font: 400 1.5rem/1 var(--display);
+  cursor: pointer;
+  box-shadow: 5px 5px 0 var(--ink);
+  transition: background .12s, color .12s, transform .08s, box-shadow .12s;
+}
+.help-btn:hover { background: var(--red); color: var(--paper2); }
+.help-btn:active { transform: translate(3px, 3px); box-shadow: 2px 2px 0 var(--ink); }
+.help-btn:focus-visible { outline: 3px solid var(--red); outline-offset: 4px; }
+
+
+/* --- manual date entry ------------------------------------------------- */
+.controls {
+  display: flex;
+  align-items: flex-start;
+  gap: 26px;
+  flex-wrap: wrap;
+}
+
+.picker { position: relative; }
+
+.picker-label {
+  display: block;
+  font: 600 11px/1 var(--ui);
+  letter-spacing: .28em;
+  text-transform: uppercase;
+  color: var(--grey);
+  margin-bottom: 8px;
+}
+
+.picker-row {
+  display: flex;
+  gap: 10px;
+}
+
+#pickDate {
+  font: 600 .95rem/1 var(--ui);
+  letter-spacing: .04em;
+  color: var(--ink);
+  background: var(--paper2);
+  border: 3px solid var(--ink);
+  border-radius: 0;
+  padding: 13px 12px;
+  box-shadow: 6px 6px 0 var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+#pickDate:focus {
+  outline: 3px solid var(--red);
+  outline-offset: 3px;
+}
+/* the native picker glyph, recoloured to match the poster */
+#pickDate::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  filter: grayscale(1) contrast(2);
+}
+
+.btn-go { padding: 13px 22px; }
+
+.picker-error {
+  margin: 12px 0 0;
+  background: var(--red);
+  color: var(--paper2);
+  font: 600 .82rem/1.35 var(--ui);
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  padding: 9px 12px;
+  max-width: 34ch;
+}
+
+/* --- date card ------------------------------------------------------ */
+.card {
+  position: relative;
+  margin-top: 40px;
+  padding: 34px 28px 30px;
+  background: var(--paper2);
+  border: 4px solid var(--ink);
+  box-shadow: 12px 12px 0 var(--ink);
+}
+
+.card-tab {
+  position: absolute;
+  top: -17px;
+  left: 22px;
+  background: var(--red);
+  color: var(--paper2);
+  font: 600 11px/1 var(--ui);
+  letter-spacing: .3em;
+  text-transform: uppercase;
+  padding: 9px 14px;
+}
+
+.date-text {
+  font-family: var(--display);
+  font-size: clamp(1.5rem, 6.4vw, 2.35rem);
+  line-height: 1;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+  margin-bottom: 26px;
+}
+
+.actions {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+/* --- the answer ------------------------------------------------------ */
+.answer {
+  margin-top: 28px;
+  background: var(--ink);
+  color: var(--paper2);
+  border-left: 14px solid var(--red);
+  font-family: var(--display);
+  font-size: clamp(1.9rem, 8vw, 3rem);
+  line-height: 1;
+  text-transform: uppercase;
+  padding: 18px 20px;
+}
+
+/* --- the worked steps -------------------------------------------------- */
+.work {
+  margin-top: 26px;
+  border: 3px solid var(--ink);
+  background: var(--paper);
+  padding: 22px 24px 20px;
+}
+
+.work ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: step;
+}
+.work li {
+  counter-increment: step;
+  position: relative;
+  padding: 9px 0 9px 46px;
+  border-bottom: 1px solid rgba(20, 16, 14, .18);
+}
+.work li::before {
+  content: counter(step);
+  position: absolute;
+  left: 0;
+  top: 8px;
+  width: 30px;
+  height: 30px;
+  background: var(--ink);
+  color: var(--paper2);
+  font: 600 .9rem/30px var(--ui);
+  text-align: center;
+}
+
+.work .note { color: var(--grey); font-size: .88rem; }
+
+.work .total {
+  margin-top: 16px;
+  font-family: var(--display);
+  font-size: 1.16rem;
+  line-height: 1.35;
+  text-transform: uppercase;
+}
+.work .total:first-of-type { padding-top: 14px; }
+
+.num {
+  font-family: var(--display);
+  font-variant-numeric: tabular-nums;
+  color: var(--red);
+  font-size: 1.08em;
+}
+
+/* --- help modal ---------------------------------------------------------- */
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  background: rgba(20, 16, 14, .82);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 32px 18px;
+  overflow-y: auto;
+}
+
+.modal-box {
+  width: 100%;
+  max-width: 580px;
+  background: var(--paper2);
+  border: 5px solid var(--ink);
+  box-shadow: 14px 14px 0 var(--red);
+}
+
+.modal-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  background: var(--ink);
+  padding: 16px 18px 16px 22px;
+}
+.modal-head h2 {
+  margin: 0;
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: 1.7rem;
+  text-transform: uppercase;
+  color: var(--paper2);
+}
+
+.modal-close {
+  flex: none;
+  width: 38px;
+  height: 38px;
+  background: var(--red);
+  color: var(--paper2);
+  border: 0;
+  font: 400 1.5rem/1 var(--ui);
+  cursor: pointer;
+}
+.modal-close:hover { background: var(--paper2); color: var(--ink); }
+.modal-close:focus-visible { outline: 3px solid var(--red); outline-offset: 3px; }
+
+.modal-body { padding: 24px 26px 30px; }
+
+.lede {
+  margin: 0 0 20px;
+  padding-left: 14px;
+  border-left: 8px solid var(--red);
+  font-size: 1.05rem;
+}
+
+.modal-body h3 {
+  display: inline-block;
+  margin: 28px 0 10px;
+  padding: 8px 12px;
+  background: var(--ink);
+  color: var(--paper2);
+  font: 600 .78rem/1 var(--ui);
+  letter-spacing: .3em;
+  text-transform: uppercase;
+}
+
+.steps { margin: 0; padding-left: 22px; }
+.steps li { margin: 9px 0; }
+.steps strong { text-transform: uppercase; letter-spacing: .04em; }
+
+.tbl {
+  width: 100%;
+  border-collapse: collapse;
+  border: 3px solid var(--ink);
+}
+.tbl th {
+  width: 16%;
+  padding: 8px 10px;
+  text-align: left;
+  background: var(--ink);
+  color: var(--paper2);
+  font: 600 .9rem/1 var(--ui);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--paper2);
+}
+.tbl td {
+  padding: 8px 10px;
+  border-bottom: 1px solid rgba(20, 16, 14, .2);
+  font-variant-numeric: tabular-nums;
+}
+.tbl tr:last-child th,
+.tbl tr:last-child td { border-bottom: 0; }
+
+.muted { color: var(--grey); font-size: .86em; }
+
+/* The wedge, ring and high disc need a real gutter beside the 680px content
+   column, which only exists past ~1200px once their rotated bounding boxes
+   are accounted for. Below that they would run under the
+   masthead text, so the poster reduces to the bar plus a corner disc. */
+@media (max-width: 1200px) {
+  .bg-wedge,
+  .bg-ring { display: none; }
+
+  .bg-circle {
+    top: auto;
+    bottom: 3vh;
+    right: -14%;
+    width: clamp(200px, 58vw, 360px);
+    height: clamp(200px, 58vw, 360px);
+    min-width: 0;
+    min-height: 0;
+  }
+}
+
+/* --- narrow screens -------------------------------------------------------- */
+@media (max-width: 560px) {
+  .railtext { display: none; }
+  .wrap { padding: 70px 18px 70px 22px; }
+  .card { box-shadow: 8px 8px 0 var(--ink); }
+  .actions .btn { flex: 1 1 100%; }
+  .controls { gap: 22px; }
+  .controls > .btn-primary { width: 100%; }
+  .picker { width: 100%; }
+  .picker-row { width: 100%; }
+  #pickDate { flex: 1 1 auto; min-width: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn, .help-btn { transition: none; }
+}
+
+/* Utility. !important so it beats component rules like .modal { display: flex }. */
+.hidden { display: none !important; }
